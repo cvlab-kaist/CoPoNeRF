@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>SE-NeRF</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ku-cvlab.github.io/coponerf/">
+    <meta property="og:title" content="CoPoNeRF">
+    <meta property="og:description" content="">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/codemirror.min.js"></script>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/video_comparison.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QVFM103BVF"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-QVFM103BVF');
+</script>
+
+<body>
+    <div class="container" id="header" style="text-align: center; margin: auto;">
+        <div class="row" id="title-row" style="max-width: 100%; margin: 0 auto; display: inline-block">
+            <h2 class="col-md-12 text-center" id="title">
+                Unifying Correspondence, Pose and NeRF for Pose-Free Novel View Synthesis from Stereo Pairs<br>
+                <small>
+                    Arxiv 2023
+                </small>
+            </h2>
+        </div>
+        <div class="row" id="author-row" style="margin:0 auto;">
+            <div class="col-md-12 text-center" style="display: table; margin:0 auto">
+                <a style="text-decoration:none" href="https://sunghwanhong.github.io/">
+                    Sunghwan&nbsp;Hong
+                </a>
+                <span style="padding-left: 20px;"></span>
+                <a style="text-decoration:none" href="https://github.com/crepejung00">
+                    Jaewoo&nbsp;Jung
+                </a>
+                <span style="padding-left: 20px;"></span>
+                <a style="text-decoration:none" href="https://github.com/hsshin98">
+                    Heeseong&nbsp;Shin
+                </a>
+                <br>
+                <a style="text-decoration:none" href="https://jlyang.org/">
+                    Jiaolong&nbsp;Yang
+                </a>
+                <span style="padding-left: 20px;"></span>
+                <a style="text-decoration:none" href="https://www.microsoft.com/en-us/research/people/cluo/?from=https://research.microsoft.com/en-us/people/cluo/&type=exact">
+                    Chong&nbsp;Luo
+                </a>
+                <span style="padding-left: 20px;"></span>
+                <a style="text-decoration:none" href="https://cvlab.korea.ac.kr">
+                    Seungryong&nbsp;Kim
+                </a>
+                <table class="author-table" id="author-table">
+                    <tr>
+                        <td>
+                            Korea University
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('author-row').style.maxWidth = document.getElementById("-row").clientWidth + 'px';
+    </script>
+
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 text-center">
+                <ul class="nav nav-pills nav-justified">
+                    <li>
+                        <a href="">
+                            <img src="./img/paper_image.png" height="60px">
+                            <h4><strong>Paper</strong></h4>
+                        </a>
+                    </li>
+                    <!-- <li>
+                            <a href="https://youtu.be/qrdRH9irAlk">
+                            <img src="./img/youtube_icon.png" height="60px">
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li> -->
+                    <!-- <li>
+                            <a href="https://storage.googleapis.com/gresearch/refraw360/ref.zip" target="_blank">
+                            <image src="img/database_icon.png" height="60px">
+                                <h4><strong>Shiny Dataset</strong></h4>
+                            </a>
+                        </li>                          -->
+                    <li>
+                        <a href="https://github.com/KU-CVLAB/CoPoNeRF" target="_blank">
+                            <image src="img/github.png" height="60px">
+                                <h4><strong>Code</strong></h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <video class="video" id="kplanes" width="50%" loop playsinline muted controls
+                    src="./img/kplanes_regnerf_ours.mp4"></video>
+                <div class="text-center">
+                    Our results of chair scene on NeRF Synthetic Extereme(3-view). We provide video comparison with
+                    our baseline(K-planes) and RegNeRF.
+                    <br><br>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Overview
+                </h3>
+                <div class="text-center">
+                    <img src="./img/main_figure.png" width="100%">
+                </div>
+                <br>
+                <div class="text-justify">
+                    SE-NeRF utilizes the teacher-student framework to distill the knowledge of learned 3D geometry from
+                    teacher to student. To do this, we apply a separate distillation scheme for reliable and unreliable
+                    rays. The process is done in an iterative manner as the student becomes the new teacher.
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    Recently, neural radiance field (NeRF) has shown remarkable performance in
+                    novel view synthesis and 3D reconstruction. However, it still requires abundant
+                    high-quality images, limiting its applicability in real-world scenarios. To overcome
+                    this limitation, recent works have focused on training NeRF only with sparse
+                    viewpoints by giving additional regularizations, often called few-shot NeRF. We
+                    observe that due to the under-constrained nature of the task, solely using additional
+                    regularization is not enough to prevent the model from overfitting to sparse view-
+                    points. In this paper, we propose a novel framework, dubbed Self-Evolving Neural
+                    Radiance Fields (SE-NeRF), that applies a self-training framework to NeRF to
+                    address these problems. We formulate few-shot NeRF into a teacher-student frame-
+                    work to guide the network to learn a more robust representation of the scene by
+                    training the student with additional pseudo labels generated from the teacher. By
+                    distilling ray-level pseudo labels using distinct distillation schemes for reliable and
+                    unreliable rays obtained with our novel reliability estimation method, we enable
+                    NeRF to learn a more accurate and robust geometry of the 3D scene. We show and
+                    evaluate that applying our self-training framework to existing models improves
+                    the quality of the rendered images and achieves state-of-the-art performance in
+                    multiple settings.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Methodology
+                </h3>
+                <div class="text-justify">
+                    We distillize the knowledge of the teacher network to the student by applying <b>seperate
+                        distillation schemes</b> for reliable and unreliable rays.
+                    <div class="text-center">
+                        <img src="./img/Distillation.png" width="100%">
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Qualitative Results
+                    </h3>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <video class="video" id="0758" width="33%" loop playsinline autoPlay muted
+                                    src="./img/hotdog_360.mp4" onplay="resizeAndPlay(this)"></video>
+                                <canvas width="150" height="150" class="videoMerge" id="0758Merge"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <video class="video" id="0781" width="33%" loop playsinline autoPlay muted
+                                    src="./img/lego_360.mp4" onplay="resizeAndPlay(this)"></video>
+                                <canvas width="150" height="150" class="videoMerge" id="0781Merge"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <video class="video" id="Teaser" width="33%" loop playsinline autoPlay muted
+                                    src="./img/mic_360.mp4" onplay="resizeAndPlay(this)"></video>
+                                <canvas width="150" height="150" class="videoMerge" id="TeaserMerge"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="text-justify">
+                        Qualitative results of on Synthetic Dataset trained with NeRF Synthetic Extreme(3-view).
+                    </div>
+                    <div class="text-center">
+                        <img src="./img/Qualitative_results_of_NeRF_Synthetic_with_3_input_view_1.png" width="100%">
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <img src="./img/Qualitative_results_of_NeRF_Synthetic_with_3_input_view_2.png" width="100%">
+                    </div>
+                    <br>
+                    <div class="text-justify">
+                        Qualitative comparisons of on Synthetic Dataset trained with NeRF Synthetic Extreme(3-view).
+                    </div>
+                    <div class="text-center">
+                        <img src="./img/Comparions1.png" width="100%">
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <img src="./img/depths_1.png" width="100%">
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <img src="./img/depths_2.png" width="100%">
+                    </div>
+                    <br>
+                    <div class="text-justify">
+                        Qualitative comparisons of on LLFF Dataset trained with randomly selected <b>3 input views</b>.
+                    </div>
+                    <div class="text-center">
+                        <img src="./img/Comparison2.png" width="100%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Quantitative Results
+                    </h3>
+                    <div class="text-center">
+                        <img src="./img/quan_perdataset.png" width="100%">
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <img src="./img/quan_synthetic_perscene.png" width="80%">
+                    </div>
+                </div>
+            </div>
+
+            <!-- <image src="img/architecture.png" class="img-responsive" alt="overview" width="60%" style="max-height: 450px;margin:auto;"> -->
+
+            <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://youtube.com/embed/qrdRH9irAlk" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Motivation of Self-Supervised Training
+                    </h3>
+                    <div class="text-justify">
+                        To validate our framework, we show the resulting PSNR values of the rendered images from
+                        <span>360&deg;</span> after being trained with 3 images from <span>0&deg;</span>,
+                        <span>120&deg;</span>, and <span>240&deg;</span>. We observe that the quality of rendered images
+                        drops sharply despite a minor change in viewpoints due to extreme overfitting to sparse input
+                        views and show that this problem can be circumvented by applying the self-training framework to
+                        NeRF.
+                        <br>
+                        <b>Baseline</b>: Trained with 3 images with the baseline model.
+                        <br>
+                        <b>GT Reliability Mask</b>: Trained with 3 images with self-supervised training applied with
+                        ground-truth reliability mask.
+                        <br>
+                        <b>Ours(SE-NeRF)</b>: Trained with 3 images with our proposed self-supervised framework with no
+                        ground-truth information.
+                    </div>
+                    <div class="text-center">
+                        <img src="./img/motivation.png" width="100%">
+                    </div>
+                    <!-- <div class="text-center">
+                    <video id="refdir" width="40%" playsinline autoplay loop muted>
+                        <source src="video/reflection_animation.mp4" type="video/mp4" />
+                    </video>
+                </div> -->
+                </div>
+            </div>
+
+
+            <!-- 
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Additional Synthetic Results
+                </h3>
+                <div class="video-compare-container">
+                    <video class="video" id="musclecar" loop playsinline autoPlay muted src="video/musclecar_mipnerf_ours.mp4" onplay="resizeAndPlay(this)"></video>
+                    <canvas height=0 class="videoMerge" id="musclecarMerge"></canvas>
+                </div>
+			</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Results on Captured Scenes
+                </h3>
+                Our method also produces accurate renderings and surface normals from captured photographs:
+                <div class="video-compare-container" style="width: 100%">
+                    <video class="video" id="toycar" loop playsinline autoPlay muted src="video/toycar.mp4" onplay="resizeAndPlay(this)"></video>
+                    <canvas height=0 class="videoMerge" id="toycarMerge"></canvas>
+                </div>
+			</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Scene Editing
+                </h3>
+                <div class="text-justify">
+                    We show that our structured representation of the directional MLP allows for scene editing after training. Here we show that we can convincingly change material properties.
+                    <br>
+                    We can increase and decrease material roughness:
+                </div>
+
+                <div style="overflow: hidden;">
+                    <video id="editing-materials" width="100%" playsinline autoplay loop muted style="margin-top: -5%;">
+                        <source src="video/materials_rougher_smoother.mp4" type="video/mp4" />
+                    </video>
+                </div>
+
+                <div class="text-justify">
+                    We can also control the amounts of specular and diffuse colors, or change the diffuse color without affecting the specular reflections:
+                </div>
+                
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v2" width="100%" playsinline autoplay loop muted>
+                                <source src="video/car_color2.mp4" type="video/mp4" />
+                            </video>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v3" width="100%" playsinline autoplay loop muted>
+                                <source src="video/car_color3.mp4" type="video/mp4" />
+                            </video>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div> -->
+
+
+            <!-- <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Video
+                    </h3>
+                    <center>
+                        <p>Coming Soon!</p>
+                              <iframe width="560" height="315" src="https://www.youtube.com/embed/4R4Pi8qWXmo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> 
+                    </center>
+                </div>
+            </div> -->
+
+
+            <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" readonly>
+@misc{song2023darf,
+    title={DäRF: Boosting Radiance Fields from Sparse Inputs with Monocular Depth Adaptation}, 
+    author={Jiuhn Song and Seonghoon Park and Honggyu An and Seokju Cho and Min-Seop Kwak and Sungjin Cho and Seungryong Kim},
+    year={2023},
+    eprint={2305.19201},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}
+                    </textarea>
+                </div>
+            </div>
+        </div> -->
+            <!--             
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" readonly>
+@article{verbin2022refnerf,
+    title={{Ref-NeRF}: Structured View-Dependent Appearance for
+           Neural Radiance Fields},
+    author={Dor Verbin and Peter Hedman and Ben Mildenhall and
+            Todd Zickler and Jonathan T. Barron and Pratul P. Srinivasan},
+    journal={CVPR},
+    year={2022}
+}</textarea>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10">
+                    <textarea id="bibtex" class="form-control" readonly>
+@misc{jung2023selfevolving,
+title={Self-Evolving Neural Radiance Fields},
+author={Jaewoo Jung and Jisang Han and Jiwon Kang and Seongchan Kim and Min-Seop Kwak and Seungryong Kim},
+year={2023},
+eprint={2312.01003},
+archivePrefix={arXiv},
+primaryClass={cs.CV}
+}
+                    </textarea>
+                </div>
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Acknowledgements
+                    </h3>
+                    <p class="text-justify">
+                        <!-- We would like to thank Lior Yariv and Kai Zhang for helping us evaluate their methods, and Ricardo Martin-Brualla for helpful comments on our text. DV is supported by the National Science Foundation under Cooperative Agreement PHY-2019786 (an NSF AI Institute, <a href="http://iaifi.org">http://iaifi.org</a>) -->
+                        <!-- <br> -->
+                        The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+</body>
+
+</html>
