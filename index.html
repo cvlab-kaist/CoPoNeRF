@@ -192,7 +192,7 @@
                     <h3>
                         Qualitative Results
                     </h3>
-                    <div>
+                    <!-- <div>
                         <div class="row">
                             <div class="col-md-4">
                                 <video class="video" id="0758" width="33%" loop playsinline autoPlay muted
@@ -211,38 +211,24 @@
                             </div>
                         </div>
                     </div>
-                    <br>
+                    <br> -->
                     <div class="text-justify">
-                        Qualitative results of on Synthetic Dataset trained with NeRF Synthetic Extreme(3-view).
+                        Qualitative results of on <b>RealEstate10K</b> Dataset.
                     </div>
                     <div class="text-center">
-                        <img src="./img/Qualitative_results_of_NeRF_Synthetic_with_3_input_view_1.png" width="100%">
+                        <img src="./img/coponerf/qual_RealEstate.png" width="100%">
                     </div>
-                    <br>
-                    <div class="text-center">
-                        <img src="./img/Qualitative_results_of_NeRF_Synthetic_with_3_input_view_2.png" width="100%">
-                    </div>
-                    <br>
                     <div class="text-justify">
-                        Qualitative comparisons of on Synthetic Dataset trained with NeRF Synthetic Extreme(3-view).
+                        Qualitative results of on <b>ACID</b> Dataset.
                     </div>
                     <div class="text-center">
-                        <img src="./img/Comparions1.png" width="100%">
+                        <img src="./img/coponerf/qual_acid.png" width="100%">
                     </div>
-                    <br>
-                    <div class="text-center">
-                        <img src="./img/depths_1.png" width="100%">
-                    </div>
-                    <br>
-                    <div class="text-center">
-                        <img src="./img/depths_2.png" width="100%">
-                    </div>
-                    <br>
                     <div class="text-justify">
-                        Qualitative comparisons of on LLFF Dataset trained with randomly selected <b>3 input views</b>.
+                        Visualization of epipolar lines from estimated poses.
                     </div>
                     <div class="text-center">
-                        <img src="./img/Comparison2.png" width="100%">
+                        <img src="./img/coponerf/epipolar.png" width="100%">
                     </div>
                 </div>
             </div>
@@ -252,12 +238,17 @@
                     <h3>
                         Quantitative Results
                     </h3>
-                    <div class="text-center">
-                        <img src="./img/quan_perdataset.png" width="100%">
+                    <div class="text-justify">
+                        The best-performing results are presented in <b>bold</b>, gray color indicates methods not directly 
+                        comparable as they supervise correspondence with ground-truth depth; they are included for reference only.
+                        We also specify the targeted task for each method. 
+                        We evaluate the performance of our method on camera pose estimation and novel view synthesis.
+                    <div class="text-left">
+                        <img src="./img/coponerf/Table_pose_estimation.png" width="100%">
                     </div>
                     <br>
                     <div class="text-center">
-                        <img src="./img/quan_synthetic_perscene.png" width="80%">
+                        <img src="./img/coponerf/Table_PSNR.png" width="100%">
                     </div>
                 </div>
             </div>
