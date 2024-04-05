@@ -2,7 +2,7 @@
 
 
 
-# Unifying Correspondence, Pose and NeRF for Generalized Pose-Free Novel View Synthesis from Stereo Pairs [CVPR 2024]
+# Unifying Correspondence, Pose and NeRF for Generalized Pose-Free Novel View Synthesis from Stereo Pairs [CVPR 2024 (Highlight)]
 This is our official implementation of CoPoNeRF CVPR-2024 (Highlight)! 
 
 [[arXiv](https://arxiv.org/pdf/2312.07246)] [[Project](https://ku-cvlab.github.io/CoPoNeRF/)] <br>
